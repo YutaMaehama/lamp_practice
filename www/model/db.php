@@ -32,6 +32,13 @@ function fetch_all_query($db, $sql, $params = array()){
     $statement = $db->prepare($sql);
     $statement->execute($params);
     return $statement->fetchAll();
+/*    $data = $statement->fetchAll();
+    foreach($data as $key => $value) {
+      foreach($value as $k => $v) {
+        $data[$key][$k] = h($v);
+      }
+    }
+    return $data; */
   }catch(PDOException $e){
     set_error('データ取得に失敗しました。');
   }
