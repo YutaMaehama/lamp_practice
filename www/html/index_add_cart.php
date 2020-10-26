@@ -7,13 +7,14 @@ require_once MODEL_PATH . 'cart.php';
 
 session_start();
 
+token_check();
+
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
 
 $db = get_db_connect();
 $user = get_login_user($db);
-
 
 $item_id = get_post('item_id');
 

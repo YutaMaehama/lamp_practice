@@ -6,6 +6,8 @@ require_once MODEL_PATH . 'item.php';
 
 session_start();
 
+token_check();
+
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
@@ -26,5 +28,6 @@ if(update_item_stock($db, $item_id, $stock)){
 } else {
   set_error('在庫数の変更に失敗しました。');
 }
+
 
 redirect_to(ADMIN_URL);

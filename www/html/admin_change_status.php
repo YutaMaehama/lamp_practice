@@ -6,6 +6,8 @@ require_once MODEL_PATH . 'item.php';
 
 session_start();
 
+token_check();
+
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
@@ -17,7 +19,6 @@ $user = get_login_user($db);
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
-
 $item_id = get_post('item_id');
 $changes_to = get_post('changes_to');
 
@@ -30,6 +31,5 @@ if($changes_to === 'open'){
 }else {
   set_error('不正なリクエストです。');
 }
-
 
 redirect_to(ADMIN_URL);

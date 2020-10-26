@@ -5,6 +5,8 @@ require_once MODEL_PATH . 'user.php';
 
 session_start();
 
+token_check();
+
 if(is_logined() === true){
   redirect_to(HOME_URL);
 }

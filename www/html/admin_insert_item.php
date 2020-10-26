@@ -6,6 +6,8 @@ require_once MODEL_PATH . 'item.php';
 
 session_start();
 
+token_check();
+
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
@@ -30,6 +32,5 @@ if(regist_item($db, $name, $price, $stock, $status, $image)){
 }else {
   set_error('商品の登録に失敗しました。');
 }
-
 
 redirect_to(ADMIN_URL);
