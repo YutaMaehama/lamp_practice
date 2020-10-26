@@ -157,3 +157,9 @@ function is_valid_csrf_token($token){
   // get_session()はユーザー定義関数
   return $token === get_session('csrf_token');
 }
+
+function token_check(){
+  if(isset($_POST['csrf_token']) === false || is_valid_csrf_token($_POST['csrf_token']) === false) {
+    redirect_to(LOGIN_URL); 
+  }
+}

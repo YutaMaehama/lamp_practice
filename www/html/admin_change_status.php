@@ -6,6 +6,8 @@ require_once MODEL_PATH . 'item.php';
 
 session_start();
 
+token_check();
+
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
@@ -17,28 +19,17 @@ $user = get_login_user($db);
 if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
+$item_id = get_post('item_id');
+$changes_to = get_post('changes_to');
 
-$token = '';
-
-if($_SERVER["REQUEST_METHOD"] === "POST") {
-  $token = $_POST['csrf_token'];
-}
-
-if(is_valid_csrf_token($token) === false) {
-  set_error('不正なリクエストです。商品の登録に失敗しました。');
-} else {
-  $item_id = get_post('item_id');
-  $changes_to = get_post('changes_to');
-
-  if($changes_to === 'open'){
-    update_item_status($db, $item_id, ITEM_STATUS_OPEN);
-    set_message('ステータスを変更しました。');
-  }else if($changes_to === 'close'){
-    update_item_status($db, $item_id, ITEM_STATUS_CLOSE);
-    set_message('ステータスを変更しました。');
-  }else {
-    set_error('不正なリクエストです。');
-  }
+if($changes_to === 'open'){
+  update_item_status($db, $item_id, ITEM_STATUS_OPEN);
+  set_message('ステータスを変更しました。');
+}else if($changes_to === 'close'){
+  update_item_status($db, $item_id, ITEM_STATUS_CLOSE);
+  set_message('ステータスを変更しました。');
+}else {
+  set_error('不正なリクエストです。');
 }
 
 redirect_to(ADMIN_URL);

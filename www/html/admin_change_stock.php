@@ -6,6 +6,8 @@ require_once MODEL_PATH . 'item.php';
 
 session_start();
 
+token_check();
+
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
@@ -18,23 +20,14 @@ if(is_admin($user) === false){
   redirect_to(LOGIN_URL);
 }
 
-$token = '';
+$item_id = get_post('item_id');
+$stock = get_post('stock');
 
-if($_SERVER["REQUEST_METHOD"] === "POST") {
-  $token = $_POST['csrf_token'];
-}
-
-if(is_valid_csrf_token($token) === false) {
-  set_error('不正なリクエストです。商品の登録に失敗しました。');
+if(update_item_stock($db, $item_id, $stock)){
+  set_message('在庫数を変更しました。');
 } else {
-  $item_id = get_post('item_id');
-  $stock = get_post('stock');
-
-  if(update_item_stock($db, $item_id, $stock)){
-    set_message('在庫数を変更しました。');
-  } else {
-    set_error('在庫数の変更に失敗しました。');
-  }
+  set_error('在庫数の変更に失敗しました。');
 }
+
 
 redirect_to(ADMIN_URL);

@@ -5,19 +5,10 @@ require_once MODEL_PATH . 'user.php';
 
 session_start();
 
+token_check();
+
 if(is_logined() === true){
   redirect_to(HOME_URL);
-}
-
-$token = '';
-
-if($_SERVER["REQUEST_METHOD"] === "POST") {
-  $token = $_POST['csrf_token'];
-}
-
-if(is_valid_csrf_token($token) === false) {
-  set_error('不正なリクエストです。ユーザー登録に失敗しました。');
-  redirect_to(SIGNUP_URL);
 }
 
 $name = get_post('name');

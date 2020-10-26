@@ -7,24 +7,14 @@ require_once MODEL_PATH . 'cart.php';
 
 session_start();
 
+token_check();
+
 if(is_logined() === false){
   redirect_to(LOGIN_URL);
 }
 
 $db = get_db_connect();
 $user = get_login_user($db);
-
-$token = '';
-
-if($_SERVER["REQUEST_METHOD"] === "POST") {
-  $token = $_POST['csrf_token'];
-}
-
-if(is_valid_csrf_token($token) === false) {
-  set_error('商品が購入できませんでした。');
-  redirect_to(CART_URL);
-}
-
 
 $carts = get_user_carts($db, $user['user_id']);
 
