@@ -9,6 +9,17 @@ if(is_logined() === true){
   redirect_to(HOME_URL);
 }
 
+$token = '';
+
+if($_SERVER["REQUEST_METHOD"] === "POST") {
+  $token = $_POST['csrf_token'];
+}
+
+if(is_valid_csrf_token($token) === false) {
+  set_error('不正なリクエストです。ユーザー登録に失敗しました。');
+  redirect_to(SIGNUP_URL);
+}
+
 $name = get_post('name');
 $password = get_post('password');
 $password_confirmation = get_post('password_confirmation');
