@@ -124,7 +124,7 @@ function purchase_carts($db, $carts){
   }
   delete_user_carts($db, $carts[0]['user_id']);
 
-  if(isset($_SESSION['__errors']) === TRUE ){
+  if(isset($_SESSION['__errors']) === TRUE && count($_SESSION['__errors']) > 0 ){
       $db->rollback();
       return false;
   } else {
